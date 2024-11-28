@@ -1,30 +1,24 @@
-import requests
 import threading
+import requests
 
-# Description: This is a brute force script
 url = "https://camo.githubusercontent.com/add76353a9c954e6b6cc0e1d79d0825d08b96b85ef6e4728dc5b882029274d42/68747470733a2f2f76697369746f722d62616467652d64656e6f2e64656e6f2e6465762f4d7568616d6d61646b61666162792e4d7568616d6d61646b61666162792e737667"
-
-# Counter to keep track of the number of requests
 count = 0
-lock = threading.Lock()
+num_threads = 10  # Number of threads to use
 
-def send_request():
+def send_requests():
     global count
-    while True:
+    while count < 1000000000:
         response = requests.get(url)
-        with lock:
-            count += 1
-            print(f"Request {count}: Status Code {response.status_code}")
+        print(f"Request {count + 1}: Status Code {response.status_code}")
+        count += 1
 
-# Number of threads to use
-num_threads = 1000000000
+threads = []
 
 # Create and start threads
-threads = []
-for _ in range(num_threads):
-    thread = threading.Thread(target=send_request)
-    thread.start()
+for i in range(num_threads):
+    thread = threading.Thread(target=send_requests)
     threads.append(thread)
+    thread.start()
 
 # Wait for all threads to complete
 for thread in threads:
