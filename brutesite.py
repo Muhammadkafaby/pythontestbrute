@@ -17,7 +17,7 @@ def send_request():
             print(f"Request {count}: Status Code {response.status_code}")
 
 # Number of threads to use
-num_threads = 1000000000
+num_threads = 100
 
 # Create and start threads
 threads = []
